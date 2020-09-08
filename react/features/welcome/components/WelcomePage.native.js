@@ -6,9 +6,16 @@ import {
     TextInput,
     TouchableHighlight,
     TouchableOpacity,
-    View
+    View,
+    Clipboard,
+    ScrollView,
+    ImageBackground,
+    Image,
+    Linking
 } from 'react-native';
 
+import bipKonferans from '../../../../images/bip_konferans.jpg';
+import group4 from '../../../../images/group-4.png';
 import { getName } from '../../app/functions';
 import { ColorSchemeRegistry } from '../../base/color-scheme';
 import { translate } from '../../base/i18n';
@@ -31,10 +38,12 @@ import {
     _mapStateToProps as _abstractMapStateToProps
 } from './AbstractWelcomePage';
 import LocalVideoTrackUnderlay from './LocalVideoTrackUnderlay';
-import VideoSwitch from './VideoSwitch';
-import WelcomePageLists from './WelcomePageLists';
-import WelcomePageSideBar from './WelcomePageSideBar';
 import styles, { PLACEHOLDER_TEXT_COLOR } from './styles';
+
+import EditIcon from '../icons/edit.png';
+import CopyIcon from '../icons/sheet-copy.png';
+import Eye from '../icons/eye.png';
+import EyeCrossed from '../icons/eye_crossed.png';
 
 /**
  * The native container rendering the welcome page.
@@ -61,6 +70,7 @@ class WelcomePage extends AbstractWelcomePage {
         // Specially bind functions to avoid function definition on render.
         this._onFieldBlur = this._onFieldFocusChange.bind(this, false);
         this._onFieldFocus = this._onFieldFocusChange.bind(this, true);
+        this._onContactUsPress = this._onContactUsPress.bind(this);
     }
 
     /**
@@ -184,6 +194,16 @@ class WelcomePage extends AbstractWelcomePage {
     }
 
     /**
+     * Callback for when press on Contact Us.
+     *
+     * @private
+     * @returns {void}
+     */
+    _onContactUsPress() {
+        Linking.openURL('mailto:TEAM-BIP-KONFERANS@turkcell.entp.tgc');
+    }
+
+    /**
      * Toggles the side bar.
      *
      * @private
@@ -192,6 +212,16 @@ class WelcomePage extends AbstractWelcomePage {
     _onShowSideBar() {
         Keyboard.dismiss();
         this.props.dispatch(setSideBarVisible(true));
+    }
+
+    /**
+     * Copies Meeting Address to clipboard .
+     *
+     * @private
+     * @returns {void}
+     */
+    _onCopyPress() {
+        Clipboard.setString(this.state.meetingAddress);
     }
 
     /**
@@ -269,53 +299,168 @@ class WelcomePage extends AbstractWelcomePage {
      * @returns {ReactElement}
      */
     _renderFullUI() {
-        const roomnameAccLabel = 'welcomepage.accessibilityLabel.roomname';
         const { _headerStyles, t } = this.props;
 
         return (
             <LocalVideoTrackUnderlay style = { styles.welcomePage }>
                 <View style = { _headerStyles.page }>
-                    <Header style = { styles.header }>
-                        <TouchableOpacity onPress = { this._onShowSideBar } >
-                            <Icon
-                                src = { IconMenu }
-                                style = { _headerStyles.headerButtonIcon } />
-                        </TouchableOpacity>
-                        <VideoSwitch />
-                    </Header>
-                    <SafeAreaView style = { styles.roomContainer } >
-                        <View style = { styles.joinControls } >
-                            <Text style = { styles.enterRoomText }>
-                                { t('welcomepage.roomname') }
-                            </Text>
-                            <TextInput
-                                accessibilityLabel = { t(roomnameAccLabel) }
-                                autoCapitalize = 'none'
-                                autoComplete = 'off'
-                                autoCorrect = { false }
-                                autoFocus = { false }
-                                onBlur = { this._onFieldBlur }
-                                onChangeText = { this._onRoomChange }
-                                onFocus = { this._onFieldFocus }
-                                onSubmitEditing = { this._onJoin }
-                                placeholder = { this.state.roomPlaceholder }
-                                placeholderTextColor = { PLACEHOLDER_TEXT_COLOR }
-                                returnKeyType = { 'go' }
-                                style = { styles.textInput }
-                                underlineColorAndroid = 'transparent'
-                                value = { this.state.room } />
-                            {
-                                this._renderInsecureRoomNameWarning()
-                            }
-                            {
-                                this._renderHintBox()
-                            }
+                    <ImageBackground
+                        source = { bipKonferans }
+                        style = { styles.welcomePageBackground } >
+                        <View style = { styles.darckify }>
+                            <Header style = { styles.header }>
+                                <Image source = { group4 } />
+                            </Header>
+                            <ScrollView contentInsetAdjustmentBehavior="automatic" style = { styles.roomContainer } >
+                                <SafeAreaView>
+                                    <View style = { styles.mainForm }>
+
+                                        <View style = { styles.tabsBlock }>
+                                            <Text
+                                                onPress = { () => this._onChangeMeetingType(false) }
+                                                style = {
+                                                    this.state.isPersonalMeeting ? styles.tabItem : {
+                                                        ...styles.tabItem,
+                                                        ...styles.activeTab
+                                                    }
+                                                }
+                                            >
+                                                New Meeting
+                                            </Text>
+                                            <Text
+                                                onPress = { () => this._onChangeMeetingType(true) }
+                                                style = {
+                                                    !this.state.isPersonalMeeting ? styles.tabItem : {
+                                                        ...styles.tabItem,
+                                                        ...styles.activeTab
+                                                    }
+                                                }
+                                            >
+                                                Personal Room
+                                            </Text>
+                                        </View>
+
+                                        <Text style = { styles.infoText }>
+                                            Please enter the information below in order to start meeting.
+                                        </Text>
+
+                                        <View style = { styles.fieldWrapper }>
+                                            <View style = { styles.labelWrapper }>
+                                                <Text style = { styles.inputLabel }>Username</Text>
+                                            </View>
+                                            <View style = { styles.textInputWrapper }>
+                                                <TextInput
+                                                    onChangeText = { this._onUsernameChange }
+                                                    placeholder = { 'Username' }
+                                                    style = { styles.textInput }
+                                                    value = { this.state.username }
+                                                />
+                                                <Image source = {EditIcon} style = { styles.editIcon } />
+                                            </View>
+                                        </View>
+
+
+
+                                        {!this.state.isPersonalMeeting && (
+                                            <View style = { styles.fieldWrapper }>
+                                                <View style = { styles.labelWrapper }>
+                                                    <Text style = { styles.inputLabel }>Meeting Subject</Text>
+                                                </View>
+                                                <View style = { styles.textInputWrapper }>
+                                                    <TextInput
+                                                        onChangeText = { this._onSubjectChange }
+                                                        placeholder = { 'Meeting Subject' }
+                                                        style = { styles.textInput }
+                                                        value = { this.state.meetingSubject }
+                                                    />
+                                                </View>
+                                            </View>
+                                        )}
+
+                                        <View style = { styles.fieldWrapper }>
+                                            <View style = { styles.labelWrapper }>
+                                                <Text style = { styles.inputLabel }>
+                                                    {this.state.isPersonalMeeting ? 'Room Address' : 'Meeting Address'}
+                                                </Text>
+                                            </View>
+                                            <View style = { styles.textInputWrapper }>
+                                                <TextInput
+                                                    editable = { this.state.isPersonalMeeting }
+                                                    onChangeText = { this._onAddressChange }
+                                                    style = { styles.textInput }
+                                                    value = { this.state.meetingAddress }
+                                                />
+                                                <TouchableOpacity onPress = { () => this._onCopyPress() }>
+                                                    <Image
+                                                        source = {CopyIcon}
+                                                        style = { styles.copyIcon }
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+
+                                        <View style = { styles.passInfoTextWrapper }>
+                                            <Text
+                                                onPress = { this._onChangePasswordFieldVisibility }
+                                                style = { styles.passwordText }
+                                            >
+                                                You might consider setting a new password for the privacy of your meeting.
+                                            </Text>
+                                            <View style={ this.state.isDisplayPasswordField ? styles.triangleIcon : styles.triangleIconReverse } />
+                                        </View>
+                                        {this.state.isDisplayPasswordField && (
+                                            <View style = { styles.fieldWrapper }>
+                                                <View style = { styles.labelWrapper }>
+                                                    <Text style = { styles.inputLabel }>Meeting Password</Text>
+                                                </View>
+                                                <View style = { styles.textInputWrapper }>
+                                                    <TextInput
+                                                        style = { styles.textInput }
+                                                        value = { this.state.password }
+                                                        secureTextEntry = { !this.state.isPasswordVisible }
+                                                    />
+                                                    <TouchableOpacity onPress = { this._onChangePasswordValueVisibility }>
+                                                        <Image
+                                                            source = { this.state.isPasswordVisible ? EyeCrossed : Eye }
+                                                            style = { styles.eyeIcon }
+                                                        />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        )}
+
+                                        <TouchableOpacity
+                                            style = {{
+                                                ...styles.hostButton,
+                                                ...(!this.state.meetingSubject ? styles.hostButtonDeactivated : styles.hostButtonActive)
+                                            }}
+                                            onPress = { this._onJoin }
+                                            disabled = { !this.state.meetingSubject }
+                                        >
+                                            <Text style = { !this.state.meetingSubject ? styles.hostBtnText : styles.hostBtnTextActive }>Host a Meeting</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style = { styles.privacy }>
+                                        <Text style = { styles.privacyItem }>
+                                            Secure and Fast Communication via BiP
+                                        </Text>
+                                        <Text style = { styles.privacyItem }>
+                                            BiP Konferans Alpha is a test version.
+                                        </Text>
+                                        <Text style = { styles.privacyItem }>
+                                            All rights reserved @ 2020
+                                        </Text>
+                                        <Text
+                                            onPress = { this._onContactUsPress }
+                                            style = { styles.privacyContactUs } >
+                                            Contact us
+                                        </Text>
+                                    </View>
+                                </SafeAreaView>
+                            </ScrollView>
                         </View>
-                    </SafeAreaView>
-                    <WelcomePageLists disabled = { this.state._fieldFocused } />
+                    </ImageBackground>
                 </View>
-                <WelcomePageSideBar />
-                { this._renderWelcomePageModals() }
             </LocalVideoTrackUnderlay>
         );
     }

@@ -90,7 +90,13 @@ export class AbstractWelcomePage extends Component<Props, *> {
         joining: false,
         room: '',
         roomPlaceholder: '',
-        updateTimeoutId: undefined
+        updateTimeoutId: undefined,
+        username: '',
+        meetingSubject: '',
+        meetingAddress: 'https://konferans.bip.com/',
+        isDisplayPasswordField: false,
+        isPersonalMeeting: false,
+        isPasswordVisible: false
     };
 
     /**
@@ -109,6 +115,12 @@ export class AbstractWelcomePage extends Component<Props, *> {
         this._onRoomChange = this._onRoomChange.bind(this);
         this._renderInsecureRoomNameWarning = this._renderInsecureRoomNameWarning.bind(this);
         this._updateRoomname = this._updateRoomname.bind(this);
+        this._onUsernameChange = this._onUsernameChange.bind(this);
+        this._onAddressChange = this._onAddressChange.bind(this);
+        this._onSubjectChange = this._onSubjectChange.bind(this);
+        this._onChangePasswordFieldVisibility = this._onChangePasswordFieldVisibility.bind(this);
+        this._onChangeMeetingType = this._onChangeMeetingType.bind(this);
+        this._onChangePasswordValueVisibility = this._onChangePasswordValueVisibility.bind(this);
     }
 
     /**
@@ -225,6 +237,104 @@ export class AbstractWelcomePage extends Component<Props, *> {
         this.setState({
             room: value,
             insecureRoomName: this.props._enableInsecureRoomNameWarning && value && isInsecureRoomName(value)
+        });
+    }
+
+    _onUsernameChange: (string) => void;
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onUsernameChange(value: string) {
+        this.setState({
+            username: value
+        });
+    }
+
+    _onSubjectChange: (string) => void;
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onSubjectChange(value: string) {
+        const rnd = Math.random().toString()
+            .slice(2, 12);
+
+        this.setState({
+            meetingSubject: value,
+            meetingAddress: `https://konferans.bip.com/${value}_${rnd}`
+        });
+    }
+
+    _onAddressChange: (string) => void;
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onAddressChange(value: string) {
+        this.setState({
+            meetingAddress: value
+        });
+    }
+
+    _onChangePasswordFieldVisibility: () => void;
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onChangePasswordFieldVisibility() {
+        this.setState({
+            isDisplayPasswordField: !this.state.isDisplayPasswordField
+        });
+    }
+
+    _onChangeMeetingType: (boolean) => void;
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onChangeMeetingType(value: boolean) {
+        this.setState({
+            isPersonalMeeting: value
+        });
+    }
+
+    /**
+     * Handles 'change' event for the room name text input field.
+     *
+     * @param {string} value - The text typed into the respective text input
+     * field.
+     * @protected
+     * @returns {void}
+     */
+    _onChangePasswordValueVisibility() {
+        this.setState({
+            isPasswordVisible: !this.state.isPasswordVisible
         });
     }
 

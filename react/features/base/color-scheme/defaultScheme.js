@@ -33,10 +33,10 @@ export default {
         buttonLabel: ColorPalette.white
     },
     'Header': {
-        background: ColorPalette.blue,
+        background: ColorPalette.white,
         icon: ColorPalette.white,
         statusBar: ColorPalette.blueHighlight,
-        statusBarContent: ColorPalette.white,
+        statusBarContent: ColorPalette.darkGrey,
         text: ColorPalette.white
     },
     'Modal': {},
