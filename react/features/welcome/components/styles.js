@@ -266,7 +266,7 @@ export default {
      */
     textInput: {
         backgroundColor: 'transparent',
-        color: '#03a9f4', //TEXT_COLOR,
+        color: '#03a9f4',
         fontSize: 16,
         height: 50,
         paddingLeft: 20,
@@ -350,8 +350,8 @@ export default {
         backgroundColor: '#fff',
         margin: 16,
         paddingTop: 50,
-        paddingRight: 40,
-        paddingLeft: 40,
+        paddingRight: 30,
+        paddingLeft: 30,
         paddingBottom: 20,
         borderRadius: 8,
         alignItems: 'center'
@@ -388,7 +388,6 @@ export default {
     },
 
     inputLabel: {
-        zIndex: 5,
         backgroundColor: '#fff',
         marginBottom: -8,
         marginLeft: 10,
@@ -398,6 +397,7 @@ export default {
     },
 
     labelWrapper: {
+        zIndex: 5,
         flexDirection: 'row',
         flexWrap: 'wrap',
         width: '100%'
@@ -411,6 +411,7 @@ export default {
         height: 50,
         width: '100%',
         flexDirection: 'row',
+        // justifyContent: 'space-between'
     },
 
     infoText: {

@@ -66,7 +66,7 @@ export class AbstractWelcomePage extends Component<Props, *> {
      */
     static getDerivedStateFromProps(props: Props, state: Object) {
         return {
-            room: props._room || state.room
+            room: /*props._room ||*/ state.room
         };
     }
 
@@ -91,6 +91,7 @@ export class AbstractWelcomePage extends Component<Props, *> {
         room: '',
         roomPlaceholder: '',
         updateTimeoutId: undefined,
+
         username: '',
         meetingSubject: '',
         meetingAddress: 'https://konferans.bip.com/',
@@ -242,14 +243,6 @@ export class AbstractWelcomePage extends Component<Props, *> {
 
     _onUsernameChange: (string) => void;
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onUsernameChange(value: string) {
         this.setState({
             username: value
@@ -258,34 +251,21 @@ export class AbstractWelcomePage extends Component<Props, *> {
 
     _onSubjectChange: (string) => void;
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onSubjectChange(value: string) {
         const rnd = Math.random().toString()
             .slice(2, 12);
 
+        const roomName = `${value}${!this.state.isPersonalMeeting ? `_${rnd}` : ''}`;
+
         this.setState({
             meetingSubject: value,
-            meetingAddress: `https://konferans.bip.com/${value}_${rnd}`
+            meetingAddress: `https://konferans.bip.com/${roomName}`,
+            room: roomName
         });
     }
 
     _onAddressChange: (string) => void;
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onAddressChange(value: string) {
         this.setState({
             meetingAddress: value
@@ -294,14 +274,6 @@ export class AbstractWelcomePage extends Component<Props, *> {
 
     _onChangePasswordFieldVisibility: () => void;
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onChangePasswordFieldVisibility() {
         this.setState({
             isDisplayPasswordField: !this.state.isDisplayPasswordField
@@ -310,28 +282,12 @@ export class AbstractWelcomePage extends Component<Props, *> {
 
     _onChangeMeetingType: (boolean) => void;
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onChangeMeetingType(value: boolean) {
         this.setState({
             isPersonalMeeting: value
         });
     }
 
-    /**
-     * Handles 'change' event for the room name text input field.
-     *
-     * @param {string} value - The text typed into the respective text input
-     * field.
-     * @protected
-     * @returns {void}
-     */
     _onChangePasswordValueVisibility() {
         this.setState({
             isPasswordVisible: !this.state.isPasswordVisible

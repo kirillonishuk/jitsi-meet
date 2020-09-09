@@ -84,7 +84,7 @@ class WelcomePage extends AbstractWelcomePage {
     componentDidMount() {
         super.componentDidMount();
 
-        this._updateRoomname();
+        // this._updateRoomname();
 
         const { dispatch } = this.props;
 
@@ -384,12 +384,42 @@ class WelcomePage extends AbstractWelcomePage {
                                                 </Text>
                                             </View>
                                             <View style = { styles.textInputWrapper }>
-                                                <TextInput
-                                                    editable = { this.state.isPersonalMeeting }
-                                                    onChangeText = { this._onAddressChange }
-                                                    style = { styles.textInput }
-                                                    value = { this.state.meetingAddress }
-                                                />
+                                                {
+                                                    this.state.isPersonalMeeting ? (
+                                                        <View style={{
+                                                            width: '90%',
+                                                            flexDirection: 'row',
+                                                            overflow: 'hidden'
+                                                        }}>
+                                                            <Text style = {{
+                                                                color: '#03a9f4',
+                                                                fontSize: 15,
+                                                                paddingTop: 14,
+                                                                paddingLeft: 20
+                                                            }}>
+                                                                https://konferans.bip.com/
+                                                            </Text>
+                                                            <TextInput
+                                                                onChangeText = { this._onSubjectChange }
+                                                                style = {{
+                                                                    color: '#03a9f4',
+                                                                    fontSize: 15,
+                                                                    marginLeft: -4,
+                                                                    flex: 1,
+                                                                    marginRight: 6
+                                                                }}
+                                                                value = { this.state.meetingSubject }
+                                                            />
+                                                        </View>
+                                                    ) : (
+                                                        <TextInput
+                                                            editable = { this.state.isPersonalMeeting }
+                                                            onChangeText = { this._onAddressChange }
+                                                            style = { styles.textInput }
+                                                            value = { this.state.meetingAddress }
+                                                        />
+                                                    )
+                                                }
                                                 <TouchableOpacity onPress = { () => this._onCopyPress() }>
                                                     <Image
                                                         source = {CopyIcon}
