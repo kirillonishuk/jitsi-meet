@@ -121,6 +121,10 @@ PODS:
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
   - ObjectiveDropboxOfficial (3.9.4)
+  - Permission-Camera (2.2.2):
+    - RNPermissions
+  - Permission-Microphone (2.2.2):
+    - RNPermissions
   - PromisesObjC (1.2.8)
   - RCTRequired (0.61.5-jitsi.1)
   - RCTTypeSafety (0.61.5-jitsi.1):
@@ -358,6 +362,8 @@ PODS:
   - RNGoogleSignin (3.0.1):
     - GoogleSignIn (~> 5.0.0)
     - React
+  - RNPermissions (2.2.2):
+    - React-Core
   - RNSound (0.11.0):
     - React
     - RNSound/Core (= 0.11.0)
@@ -383,6 +389,8 @@ DEPENDENCIES:
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - ObjectiveDropboxOfficial (~> 3.9.4)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
+  - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired/`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety/`)
   - React (from `../node_modules/react-native/`)
@@ -413,6 +421,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDefaultPreference (from `../node_modules/react-native-default-preference`)
   - "RNGoogleSignin (from `../node_modules/@react-native-community/google-signin`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNWatch (from `../node_modules/react-native-watch-connectivity`)
@@ -459,6 +468,10 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Permission-Camera:
+    :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
+  Permission-Microphone:
+    :path: "../node_modules/react-native-permissions/ios/Microphone.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired/"
   RCTTypeSafety:
@@ -515,6 +528,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-default-preference"
   RNGoogleSignin:
     :path: "../node_modules/@react-native-community/google-signin"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNSound:
     :path: "../node_modules/react-native-sound"
   RNSVG:
@@ -530,9 +545,9 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: e3aad03778a456d77928f594a649e96995f1c872
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
   FBLazyVector: 4a5251159a3ed05dc11cc8b74cf937869935814b
   FBReactNativeSpec: 6fa602a20993212cc9877a81838578ffb0008bc9
   Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
@@ -555,6 +570,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   ObjectiveDropboxOfficial: a5afefc83f6467c42c45f2253f583f2ad1ffc701
+  Permission-Camera: 375576c57ea625c88137d2cc52ba6dfeb21db036
+  Permission-Microphone: b3de743c3ffa4f6de043119c7cbd092c0d1f9b35
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   RCTRequired: f63dd90a89a60602acdd44c42e5d2645ca60ab79
   RCTTypeSafety: 24a3c6d55684046ed550b1d0ef083a9bf71c8bd4
@@ -584,11 +601,12 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 8e31405a9f12fbf42c2bb330e4560bfd79c18323
   RNDefaultPreference: 56a405ce61033ac77b95004dccd7ac54c2eb50d1
   RNGoogleSignin: 39336070b35fc4cea6a98cf111e00480317be0ae
+  RNPermissions: 067727df624665d4a6c8e2cffcc172ba608b96ed
   RNSound: c980916b596cc15c8dcd2f6ecd3b13c4881dbe20
   RNSVG: aac12785382e8fd4f28d072fe640612e34914631
   RNWatch: a5320c959c75e72845c07985f3e935e58998f1d3
   Yoga: 7b4209fda2441f99d54dd6cf4c82b094409bb68f
 
-PODFILE CHECKSUM: 082858daebbe170e7a490de433e7f2a99e0c3701
+PODFILE CHECKSUM: 52312195394f0048b1c0982446ec347af22b0d20
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

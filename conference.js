@@ -797,7 +797,6 @@ export default {
      */
     async prejoinStart(tracks) {
         const con = await _connectionPromise;
-
         return this.startConference(con, tracks);
     },
 

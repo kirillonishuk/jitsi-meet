@@ -14,6 +14,11 @@ end
 target 'JitsiMeet' do
   project 'sdk/sdk.xcodeproj'
 
+  pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+
   # React Native and its dependencies
   #
 

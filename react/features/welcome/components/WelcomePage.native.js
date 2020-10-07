@@ -19,7 +19,7 @@ import group4 from '../../../../images/group-4.png';
 import { getName } from '../../app/functions';
 import { ColorSchemeRegistry } from '../../base/color-scheme';
 import { translate } from '../../base/i18n';
-import { Icon, IconMenu, IconWarning } from '../../base/icons';
+import { Icon, IconWarning } from '../../base/icons';
 import { MEDIA_TYPE } from '../../base/media';
 import { Header, LoadingIndicator, Text } from '../../base/react';
 import { connect } from '../../base/redux';
@@ -32,18 +32,18 @@ import { HelpView } from '../../help';
 import { DialInSummary } from '../../invite';
 import { SettingsView } from '../../settings';
 import { setSideBarVisible } from '../actions';
+import EditIcon from '../icons/edit.png';
+import Eye from '../icons/eye.png';
+import EyeCrossed from '../icons/eye_crossed.png';
+import CopyIcon from '../icons/sheet-copy.png';
 
 import {
     AbstractWelcomePage,
     _mapStateToProps as _abstractMapStateToProps
 } from './AbstractWelcomePage';
 import LocalVideoTrackUnderlay from './LocalVideoTrackUnderlay';
-import styles, { PLACEHOLDER_TEXT_COLOR } from './styles';
+import styles from './styles';
 
-import EditIcon from '../icons/edit.png';
-import CopyIcon from '../icons/sheet-copy.png';
-import Eye from '../icons/eye.png';
-import EyeCrossed from '../icons/eye_crossed.png';
 
 /**
  * The native container rendering the welcome page.
@@ -143,7 +143,7 @@ class WelcomePage extends AbstractWelcomePage {
                     src = { IconWarning }
                     style = { styles.insecureRoomNameWarningIcon } />
                 <Text style = { styles.insecureRoomNameWarningText }>
-                    { this.props.t('security.insecureRoomNameWarning') }
+                    {this.props.t('security.insecureRoomNameWarning')}
                 </Text>
             </View>
         );
@@ -187,10 +187,10 @@ class WelcomePage extends AbstractWelcomePage {
             })
             .start(animationState =>
                 animationState.finished
-                    && !focused
-                    && this.setState({
-                        _fieldFocused: false
-                    }));
+                && !focused
+                && this.setState({
+                    _fieldFocused: false
+                }));
     }
 
     /**
@@ -238,11 +238,11 @@ class WelcomePage extends AbstractWelcomePage {
                 <Animated.View style = { this._getHintBoxStyle() }>
                     <View style = { styles.hintTextContainer } >
                         <Text style = { styles.hintText }>
-                            { t('welcomepage.roomnameHint') }
+                            {t('welcomepage.roomnameHint')}
                         </Text>
                     </View>
                     <View style = { styles.hintButtonContainer } >
-                        { this._renderJoinButton() }
+                        {this._renderJoinButton()}
                     </View>
                 </Animated.View>
             );
@@ -276,7 +276,7 @@ class WelcomePage extends AbstractWelcomePage {
         } else {
             children = (
                 <Text style = { styles.buttonText }>
-                    { this.props.t('welcomepage.join') }
+                    { this.props.t('welcomepage.join')}
                 </Text>
             );
         }
@@ -288,7 +288,7 @@ class WelcomePage extends AbstractWelcomePage {
                 onPress = { this._onJoin }
                 style = { styles.button }
                 underlayColor = { ColorPalette.white }>
-                { children }
+                { children}
             </TouchableHighlight>
         );
     }
@@ -311,7 +311,9 @@ class WelcomePage extends AbstractWelcomePage {
                             <Header style = { styles.header }>
                                 <Image source = { group4 } />
                             </Header>
-                            <ScrollView contentInsetAdjustmentBehavior="automatic" style = { styles.roomContainer } >
+                            <ScrollView
+                                contentInsetAdjustmentBehavior = 'automatic'
+                                style = { styles.roomContainer } >
                                 <SafeAreaView>
                                     <View style = { styles.mainForm }>
 
@@ -323,9 +325,8 @@ class WelcomePage extends AbstractWelcomePage {
                                                         ...styles.tabItem,
                                                         ...styles.activeTab
                                                     }
-                                                }
-                                            >
-                                                New Meeting
+                                                }>
+                                                {'New Meeting'}
                                             </Text>
                                             <Text
                                                 onPress = { () => this._onChangeMeetingType(true) }
@@ -334,14 +335,13 @@ class WelcomePage extends AbstractWelcomePage {
                                                         ...styles.tabItem,
                                                         ...styles.activeTab
                                                     }
-                                                }
-                                            >
-                                                Personal Room
+                                                }>
+                                                {'Personal Room'}
                                             </Text>
                                         </View>
 
                                         <Text style = { styles.infoText }>
-                                            Please enter the information below in order to start meeting.
+                                            {'Please enter the information below in order to start meeting.'}
                                         </Text>
 
                                         <View style = { styles.fieldWrapper }>
@@ -353,12 +353,12 @@ class WelcomePage extends AbstractWelcomePage {
                                                     onChangeText = { this._onUsernameChange }
                                                     placeholder = { 'Username' }
                                                     style = { styles.textInput }
-                                                    value = { this.state.username }
-                                                />
-                                                <Image source = {EditIcon} style = { styles.editIcon } />
+                                                    value = { this.state.username } />
+                                                <Image
+                                                    source = { EditIcon }
+                                                    style = { styles.editIcon } />
                                             </View>
                                         </View>
-
 
 
                                         {!this.state.isPersonalMeeting && (
@@ -371,8 +371,7 @@ class WelcomePage extends AbstractWelcomePage {
                                                         onChangeText = { this._onSubjectChange }
                                                         placeholder = { 'Meeting Subject' }
                                                         style = { styles.textInput }
-                                                        value = { this.state.meetingSubject }
-                                                    />
+                                                        value = { this.state.meetingSubject } />
                                                 </View>
                                             </View>
                                         )}
@@ -386,17 +385,19 @@ class WelcomePage extends AbstractWelcomePage {
                                             <View style = { styles.textInputWrapper }>
                                                 {
                                                     this.state.isPersonalMeeting ? (
-                                                        <View style={{
-                                                            width: '90%',
-                                                            flexDirection: 'row',
-                                                            overflow: 'hidden'
-                                                        }}>
-                                                            <Text style = {{
-                                                                color: '#03a9f4',
-                                                                fontSize: 15,
-                                                                paddingTop: 14,
-                                                                paddingLeft: 20
+                                                        <View
+                                                            style = {{
+                                                                width: '90%',
+                                                                flexDirection: 'row',
+                                                                overflow: 'hidden'
                                                             }}>
+                                                            <Text
+                                                                style = {{
+                                                                    color: '#03a9f4',
+                                                                    fontSize: 15,
+                                                                    paddingTop: 14,
+                                                                    paddingLeft: 20
+                                                                }}>
                                                                 https://konferans.bip.com/
                                                             </Text>
                                                             <TextInput
@@ -408,23 +409,20 @@ class WelcomePage extends AbstractWelcomePage {
                                                                     flex: 1,
                                                                     marginRight: 6
                                                                 }}
-                                                                value = { this.state.meetingSubject }
-                                                            />
+                                                                value = { this.state.meetingSubject } />
                                                         </View>
                                                     ) : (
                                                         <TextInput
                                                             editable = { this.state.isPersonalMeeting }
                                                             onChangeText = { this._onAddressChange }
                                                             style = { styles.textInput }
-                                                            value = { this.state.meetingAddress }
-                                                        />
+                                                            value = { this.state.meetingAddress } />
                                                     )
                                                 }
                                                 <TouchableOpacity onPress = { () => this._onCopyPress() }>
                                                     <Image
-                                                        source = {CopyIcon}
-                                                        style = { styles.copyIcon }
-                                                    />
+                                                        source = { CopyIcon }
+                                                        style = { styles.copyIcon } />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -432,11 +430,10 @@ class WelcomePage extends AbstractWelcomePage {
                                         <View style = { styles.passInfoTextWrapper }>
                                             <Text
                                                 onPress = { this._onChangePasswordFieldVisibility }
-                                                style = { styles.passwordText }
-                                            >
+                                                style = { styles.passwordText }>
                                                 You might consider setting a new password for the privacy of your meeting.
                                             </Text>
-                                            <View style={ this.state.isDisplayPasswordField ? styles.triangleIcon : styles.triangleIconReverse } />
+                                            <View style = { this.state.isDisplayPasswordField ? styles.triangleIcon : styles.triangleIconReverse } />
                                         </View>
                                         {this.state.isDisplayPasswordField && (
                                             <View style = { styles.fieldWrapper }>
@@ -447,13 +444,11 @@ class WelcomePage extends AbstractWelcomePage {
                                                     <TextInput
                                                         style = { styles.textInput }
                                                         value = { this.state.password }
-                                                        secureTextEntry = { !this.state.isPasswordVisible }
-                                                    />
+                                                        secureTextEntry = { !this.state.isPasswordVisible } />
                                                     <TouchableOpacity onPress = { this._onChangePasswordValueVisibility }>
                                                         <Image
                                                             source = { this.state.isPasswordVisible ? EyeCrossed : Eye }
-                                                            style = { styles.eyeIcon }
-                                                        />
+                                                            style = { styles.eyeIcon } />
                                                     </TouchableOpacity>
                                                 </View>
                                             </View>
@@ -462,28 +457,27 @@ class WelcomePage extends AbstractWelcomePage {
                                         <TouchableOpacity
                                             style = {{
                                                 ...styles.hostButton,
-                                                ...(!this.state.meetingSubject ? styles.hostButtonDeactivated : styles.hostButtonActive)
+                                                ...!this.state.meetingSubject ? styles.hostButtonDeactivated : styles.hostButtonActive
                                             }}
                                             onPress = { this._onJoin }
-                                            disabled = { !this.state.meetingSubject }
-                                        >
+                                            disabled = { !this.state.meetingSubject }>
                                             <Text style = { !this.state.meetingSubject ? styles.hostBtnText : styles.hostBtnTextActive }>Host a Meeting</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style = { styles.privacy }>
                                         <Text style = { styles.privacyItem }>
-                                            Secure and Fast Communication via BiP
+                                            {'Secure and Fast Communication via BiP'}
                                         </Text>
                                         <Text style = { styles.privacyItem }>
-                                            BiP Konferans Alpha is a test version.
+                                            {'BiP Konferans Alpha is a test version.'}
                                         </Text>
                                         <Text style = { styles.privacyItem }>
-                                            All rights reserved @ 2020
+                                            {'All rights reserved @ 2020'}
                                         </Text>
                                         <Text
                                             onPress = { this._onContactUsPress }
                                             style = { styles.privacyContactUs } >
-                                            Contact us
+                                            {'Contact us'}
                                         </Text>
                                     </View>
                                 </SafeAreaView>
@@ -506,7 +500,7 @@ class WelcomePage extends AbstractWelcomePage {
         return (
             <View style = { styles.reducedUIContainer }>
                 <Text style = { styles.reducedUIText }>
-                    { t('welcomepage.reducedUIText', { app: getName() }) }
+                    {t('welcomepage.reducedUIText', { app: getName() })}
                 </Text>
             </View>
         );

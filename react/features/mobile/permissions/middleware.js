@@ -1,5 +1,6 @@
 /* @flow */
 
+import { jitsiLocalStorage } from '@jitsi/js-utils';
 import { Alert } from 'react-native';
 
 
@@ -7,7 +8,8 @@ import { isRoomValid } from '../../base/conference';
 import { MiddlewareRegistry } from '../../base/redux';
 import { TRACK_CREATE_ERROR } from '../../base/tracks';
 
-import { openSettings } from './functions';
+
+import { openSettings, openPrivacyStatement, openTermsOfServices, AcceptPrivacyAndTerms } from './functions';
 
 /**
  * Middleware that captures track permission errors and alerts the user so they
@@ -29,7 +31,7 @@ MiddlewareRegistry.register(store => next => action => {
         // me.
         if (action.permissionDenied
                 && isRoomValid(
-                        store.getState()['features/base/conference'].room)) {
+                    store.getState()['features/base/conference'].room)) {
             _alertPermissionErrorWithSettings(action.trackType);
         }
         break;
@@ -55,8 +57,7 @@ function _alertPermissionErrorWithSettings(trackType) {
 
     const message
         = `${deviceType
-            } permission is required to participate in conferences with ${
-            trackType}. Please grant it in Settings.`;
+        } permission is required to participate in conferences with ${trackType}. Please grant it in Settings.`;
 
     /* eslint-ensable indent */
 
@@ -71,4 +72,43 @@ function _alertPermissionErrorWithSettings(trackType) {
             }
         ],
         { cancelable: false });
+}
+
+/**
+ * Show "Terms of Services" and "Privacy Statement".
+ *
+ * @returns {void}
+ */
+export function alertPrivacyPolicy() {
+    // TODO i18n
+
+    /* eslint-disable indent */
+
+    const isAccept = jitsiLocalStorage.getItem('termsandprivacy');
+
+    if (isAccept !== 'true') {
+        const message
+            = 'I\'ve reviewed and accept the Terms of Service and Privacy Statement.';
+
+        Alert.alert(
+            'Bip Meet',
+            message,
+            [
+                {
+                    onPress: openTermsOfServices,
+                    text: 'Review Terms of Services'
+                },
+                {
+                    onPress: openPrivacyStatement,
+                    text: 'Review Privacy Statement'
+                },
+                { text: 'I Do Not Accept' },
+                {
+                    onPress: AcceptPrivacyAndTerms,
+                    text: 'I Accept',
+                    style: 'cancel'
+                }
+            ],
+            { cancelable: false });
+    }
 }

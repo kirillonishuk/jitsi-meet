@@ -2,6 +2,10 @@
 
 import React from 'react';
 
+import { PERMISSIONS, check, request, RESULTS } from 'react-native-permissions';
+
+
+import { alertPrivacyPolicy } from '../../mobile/permissions/middleware'
 import { setColorScheme } from '../../base/color-scheme';
 import { DialogContainer } from '../../base/dialog';
 import { updateFlags } from '../../base/flags/actions';
@@ -84,6 +88,11 @@ export class App extends AbstractApp {
     componentDidMount() {
         super.componentDidMount();
 
+        alertPrivacyPolicy();
+
+        this._getCamAndMicPermissions()
+            .catch(console.log);
+
         this._init.then(() => {
             const { dispatch, getState } = this.state.store;
 
@@ -114,6 +123,27 @@ export class App extends AbstractApp {
                 dispatch(updateSettings({ disableCallIntegration: !callIntegrationEnabled }));
             }
         });
+    }
+
+    /**
+     * 
+     * @param {*} component 
+     * @param {*} props 
+     */
+    async _getCamAndMicPermissions() {
+        try {
+            const micIsActive = await check(PERMISSIONS.IOS.MICROPHONE);
+            const camIsActive = await check(PERMISSIONS.IOS.CAMERA);
+
+            if (micIsActive === RESULTS.BLOCKED || micIsActive === RESULTS.DENIED) {
+                await request(PERMISSIONS.IOS.MICROPHONE);
+            }
+            if (camIsActive === RESULTS.BLOCKED || camIsActive === RESULTS.DENIED) {
+                await request(PERMISSIONS.IOS.CAMERA);
+            }
+        } catch(ex) {
+            throw ex;
+        }
     }
 
     /**
